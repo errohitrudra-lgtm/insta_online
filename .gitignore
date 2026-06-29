@@ -1,0 +1,36 @@
+# Credentials & secrets
+#config.json
+
+# Runtime state
+state.json
+reels_db.json
+
+# Downloaded media
+storage/
+
+# Browser data
+cookies/
+screenshots/
+
+# Logs
+logs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Debug files
+debug_*.py
+debug_*.html
+view_screenshots.py
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store

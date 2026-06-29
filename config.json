@@ -1,0 +1,57 @@
+{
+  "my_account": {
+    "username": "",
+    "password": ""
+  },
+  "targets": [
+    {
+      "username": "saloni66074",
+      "min_views": 1000
+    }
+  ],
+  "poll_interval_seconds": 14400,
+  "max_reels_per_scan": 200,
+  "storage": {
+    "local_dir": "./storage"
+  },
+  "retry": {
+    "max_attempts": 5,
+    "base_delay": 3.0,
+    "max_delay": 120.0,
+    "exponential_base": 2.0
+  },
+  "queue": {
+    "backend": "memory",
+    "max_workers": 2
+  },
+  "web": {
+    "enabled": true,
+    "host": "127.0.0.1",
+    "port": 8000
+  },
+  "ai": {
+    "enabled": false,
+    "api_key": "",
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "invoke_url": "https://integrate.api.nvidia.com/v1/chat/completions"
+  },
+  "upload": {
+    "enabled": true,
+    "auto_upload": true,
+    "schedule_enabled": true,
+    "schedule_times": ["10:00", "14:00", "17:10"],
+    "reels_per_schedule": 3,
+    "delay_between_uploads": 1200,
+    "headless": true,
+    "retry_failed": true,
+    "retry_max_attempts": 3,
+    "retry_delay_minutes": 30,
+    "cleanup_after_upload": false,
+    "cleanup_after_days": 7,
+    "catchup_enabled": true,
+    "catchup_interval_minutes": 60
+  },
+  "state_file": "./state.json",
+  "log_level": "INFO",
+  "log_file": "./logs/app.log"
+}
