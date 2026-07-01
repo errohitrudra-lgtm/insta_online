@@ -997,8 +997,28 @@ def main(config_path: Optional[str] = None, visible: bool = False) -> None:
     config = load_config(config_path)
     setup_logging(level=config.log_level, log_file=config.log_file)
 
+    # If --visible passed via CLI, force headed mode
     if visible:
         config.upload.headless = False
+    else:
+        # Interactive prompt: ask user every time
+        print()
+        print("\033[1;36m" + "=" * 50 + "\033[0m")
+        print("\033[1;36m  Instagram Reel Monitor\033[0m")
+        print("\033[1;36m" + "=" * 50 + "\033[0m")
+        print()
+        try:
+            choice = input("\033[1;33mShow browser while working? (y=headed / n=headless) [n]: \033[0m").strip().lower()
+        except (EOFError, KeyboardInterrupt):
+            choice = "n"
+
+        if choice in ("y", "yes"):
+            config.upload.headless = False
+            print("\033[32m→ Browser will be VISIBLE (headed mode).\033[0m")
+        else:
+            config.upload.headless = True
+            print("\033[32m→ Browser will run in the BACKGROUND (headless mode).\033[0m")
+        print()
 
     log.info("Starting Instagram Reel Monitor (headless=%s)", config.upload.headless)
 

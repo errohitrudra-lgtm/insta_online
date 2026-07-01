@@ -24,13 +24,13 @@ if %errorlevel% neq 0 (
 )
 
 REM --- Show Python version ---
-echo [1/4] Checking Python...
+echo [1/5] Checking Python...
 python --version
 
 REM --- Create virtual environment if not exists ---
 if not exist ".venv" (
     echo.
-    echo [2/4] Creating virtual environment...
+    echo [2/5] Creating virtual environment...
     python -m venv .venv
     if %errorlevel% neq 0 (
         echo [ERROR] Failed to create venv. Check your Python installation.
@@ -39,7 +39,7 @@ if not exist ".venv" (
     )
     echo       Done.
 ) else (
-    echo [2/4] Virtual environment already exists.
+    echo [2/5] Virtual environment already exists.
 )
 
 REM --- Activate venv ---
@@ -47,13 +47,23 @@ call .venv\Scripts\activate.bat
 
 REM --- Install / upgrade dependencies ---
 echo.
-echo [3/4] Installing dependencies...
+echo [3/5] Installing dependencies...
 python -m pip install --upgrade pip --quiet
 pip install -r requirements.txt --quiet
 if %errorlevel% neq 0 (
     echo [ERROR] Failed to install dependencies.
     pause
     exit /b 1
+)
+echo       Done.
+
+REM --- Install Playwright browsers ---
+echo.
+echo [4/5] Installing Playwright browsers (Chromium)...
+python -m playwright install chromium --with-deps 2>nul
+if %errorlevel% neq 0 (
+    echo       Playwright browser install had warnings, trying alternative...
+    python -m playwright install chromium 2>nul
 )
 echo       Done.
 
@@ -72,7 +82,7 @@ if not exist "config.json" (
 
 REM --- Launch ---
 echo.
-echo [4/4] Starting Instagram Reel Monitor (fully automated)...
+echo [5/5] Starting Instagram Reel Monitor...
 echo.
 echo   Dashboard: http://127.0.0.1:8000
 echo   Downloads: .\storage\
