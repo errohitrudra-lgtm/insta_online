@@ -919,23 +919,8 @@ class Application:
                 loop.add_signal_handler(sig, _signal_handler)
             except NotImplementedError:
                 # Windows: signal handlers not supported in asyncio
+                # Ctrl-C will raise KeyboardInterrupt caught below
                 pass
-
-        # On Windows, also handle Ctrl-C via a background thread
-        import sys
-        if sys.platform == "win32":
-            import threading
-
-            def _win_signal_waiter():
-                try:
-                    signal.signal(signal.SIGINT, lambda s, f: None)
-                    while not stop_event.is_set():
-                        import time as _t
-                        _t.sleep(0.5)
-                except (KeyboardInterrupt, SystemExit):
-                    loop.call_soon_threadsafe(stop_event.set)
-
-            threading.Thread(target=_win_signal_waiter, daemon=True).start()
 
         try:
             await stop_event.wait()
